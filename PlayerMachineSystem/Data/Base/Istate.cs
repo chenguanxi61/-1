@@ -7,4 +7,6 @@ public interface Istate
     void Exit();
     void LogicUpdate();
     void PhysicalUpdate();
+
+    //»ù±¾Âß¼­
 }

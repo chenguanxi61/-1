@@ -8,10 +8,12 @@ using UnityEngine;
 public class Player_Run : PlayerState
 {
 
-    float runSpeed = 5f;
+    [SerializeField]float runSpeed = 5f;//最大速度
+    [SerializeField]float a = 5f;//加速度
     public override void Enter()
     {
-        animator.Play("Run");
+        base.Enter();
+        currentSpeed = Player.moveSpeed;
     }
 
     public override void LogicUpdate()
@@ -20,10 +22,21 @@ public class Player_Run : PlayerState
         {
             stateMachine.SwitchState(typeof(Player_Idel));//切换空闲状态
         }
+        currentSpeed = Mathf.MoveTowards(currentSpeed, runSpeed, a * Time.deltaTime);
+
+        if (input.Jump)
+        {
+            stateMachine.SwitchState(typeof(Player_Jump));
+        }
+
+        if(!Player.IsGorund)
+        {
+            stateMachine.SwitchState(typeof(Player_Fall));
+        }
     }
 
     public override void PhysicalUpdate()
     {
-        Player.SetVelocityX(runSpeed);
+        Player.Move(currentSpeed);
     }
 }

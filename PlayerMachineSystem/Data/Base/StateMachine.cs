@@ -26,7 +26,8 @@ public class StateMachine : MonoBehaviour
         //ÍË³ö×´Ì¬
         currentState.Exit();
         SwitchOn(newState);
-    } public void SwitchState(System.Type newStateType)//×´Ì¬ÇÐ»»
+    } 
+    public void SwitchState(System.Type newStateType)//×´Ì¬ÇÐ»»
     {
         //ÍË³ö×´Ì¬
         currentState.Exit();

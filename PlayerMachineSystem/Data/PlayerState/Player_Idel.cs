@@ -7,9 +7,12 @@ using UnityEngine;
 [CreateAssetMenu(menuName ="Data/StateMachine/PlayerState/Idle",fileName= "Player_Idel")]
 public class Player_Idel : PlayerState
 {
+    [SerializeField] float a = 5f;//¼õËÙ¶È
     public override void Enter()
     {
-        animator.Play("Idle");
+        base.Enter();
+        currentSpeed = Player.moveSpeed;
+        //Player.SetVelocityX(0f);
     }
 
     public override void LogicUpdate()
@@ -18,5 +21,20 @@ public class Player_Idel : PlayerState
         {
             stateMachine.SwitchState(typeof(Player_Run));//ÇÐ»»ÅÜ²½×´Ì¬
         }
+
+        currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, a * Time.deltaTime);
+        if (input.Jump)
+        {
+            stateMachine.SwitchState(typeof(Player_Jump));
+        }
+      /*  if(!Player.IsGorund)
+        {
+            stateMachine.SwitchState(typeof(Player_Fall));
+        }*/
+    }
+
+    public override void PhysicalUpdate()
+    {
+        Player.SetVelocityX(currentSpeed * Player.transform.localScale.x);
     }
 }
